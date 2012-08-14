@@ -54,6 +54,7 @@ class mod_groupselect_mod_form extends moodleform_mod {
         $options[0] = get_string('fromallgroups', 'mod_groupselect');
         if ($groupings = groups_get_all_groupings($COURSE->id)) {
             foreach ($groupings as $grouping) {
+                if ($grouping->locked_uctimetable) continue;
                 $options[$grouping->id] = format_string($grouping->name);
             }
         }

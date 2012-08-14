@@ -56,6 +56,13 @@ $PAGE->set_heading($course->fullname);
 $PAGE->set_activity_record($groupselect);
 
 $mygroups       = groups_get_all_groups($course->id, $USER->id, $groupselect->targetgrouping, 'g.*');
+// Remove groups from uctimetable so that they don't cause problems with "all groupings" group selects
+// (if a student is in a uctimetable group and the group select is set to "all groupings" they can't enrol in another group)
+foreach ($mygroups as $gid => $group) {
+    if($group->locked_uctimetable) {
+        unset($mygroups[$gid]);
+    }
+}
 $isopen         = groupselect_is_open($groupselect);
 $groupmode      = groups_get_activity_groupmode($cm, $course);
 $counts         = groupselect_group_member_counts($cm, $groupselect->targetgrouping);
@@ -177,6 +184,7 @@ if (empty($groups)) {
     $actionpresent = false;
 
     foreach ($groups as $group) {
+        if ($group->locked_uctimetable) continue;
         $ismember  = isset($mygroups[$group->id]);
         $usercount = isset($counts[$group->id]) ? $counts[$group->id]->usercount : 0;
         $grpname   = format_string($group->name, true, array('context'=>$context));
