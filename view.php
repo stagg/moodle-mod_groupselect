@@ -257,8 +257,7 @@ if (empty($groups)) {
         $table->size    = array('10%', '30%', '5%', '45%', '10%');
         $table->align[] = 'center';
     }
-    echo html_writer::table($table);
-
+    echo html_writer::tag('div', html_writer::table($table), array('class' => 'mod_groupselect-table'));
 }
 
 echo $OUTPUT->footer();

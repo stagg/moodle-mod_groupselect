@@ -11,3 +11,7 @@
 .mod_groupselect .maxlimitreached {
   color:#AAAAAA;
 }
+
+.mod_groupselect-table table tbody tr td {
+    vertical-align: middle;
+}
